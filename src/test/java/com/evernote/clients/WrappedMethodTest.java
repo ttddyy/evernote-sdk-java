@@ -23,17 +23,25 @@ public class WrappedMethodTest {
 
     private Class<?> original;
     private Class<?> wrapped;
+    private String[] methodNamesToIgnore;
 
-    public WrappedMethodTest(Class<?> original, Class<?> wrapped) {
+    public WrappedMethodTest(Class<?> original, Class<?> wrapped, String[] methodNamesToIgnore) {
         this.original = original;
         this.wrapped = wrapped;
+        this.methodNamesToIgnore = methodNamesToIgnore;
     }
 
     @Parameters
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
-                {NoteStoreIface.class, NoteStoreClient.class},
-                {UserStoreIface.class, UserStoreClient.class}
+                // original class, wrapped class, method names to ignore
+                {NoteStoreIface.class, NoteStoreClient.class, new String[]{}},
+                {UserStoreIface.class, UserStoreClient.class, new String[]{}},
+                {NoteStoreClient.class, NoteStoreClientOperations.class, new String[]{"getToken"}},
+                {UserStoreClient.class, UserStoreClientOperations.class, new String[]{"getClient", "getToken"}},
+                {LinkedNoteStoreClient.class, LinkedNoteStoreClientOperations.class,
+                        new String[]{"getPersonalClient", "getAuthenticationResult", "getToken"}},
+                {BusinessNoteStoreClient.class, BusinessNoteStoreClientOperations.class, new String[]{}}
         });
     }
 
@@ -51,6 +59,8 @@ public class WrappedMethodTest {
         for (Method m : wrappedMethods) {
             originalMethodNames.remove(m.getName());
         }
+
+        originalMethodNames.removeAll(Arrays.asList(this.methodNamesToIgnore));
 
         if (!originalMethodNames.isEmpty()) {
             fail("Following methods are not implemented in " + this.wrapped.getName()

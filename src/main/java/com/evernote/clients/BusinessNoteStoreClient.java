@@ -48,7 +48,7 @@ import com.evernote.thrift.TException;
  * @author @tylersmithnet
  * @author kentaro suzuki
  */
-public class BusinessNoteStoreClient extends LinkedNoteStoreClient {
+public class BusinessNoteStoreClient extends LinkedNoteStoreClient implements BusinessNoteStoreClientOperations {
 
   BusinessNoteStoreClient(NoteStoreClient mainNoteStoreClient,
       NoteStoreClient linkedNoteStoreClient,

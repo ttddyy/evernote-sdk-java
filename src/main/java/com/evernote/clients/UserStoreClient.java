@@ -42,7 +42,7 @@ import com.evernote.thrift.protocol.TProtocol;
  * 
  * @author kentaro suzuki
  */
-public class UserStoreClient {
+public class UserStoreClient implements UserStoreClientOperations {
 
   private final String token;
   private final UserStore.Client client;

@@ -64,7 +64,7 @@ import com.evernote.thrift.protocol.TProtocol;
  * 
  * @author kentaro suzuki
  */
-public class NoteStoreClient {
+public class NoteStoreClient implements NoteStoreClientOperations {
 
   protected String token;
   protected final NoteStore.Client client;
